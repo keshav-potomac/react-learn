@@ -114,3 +114,4 @@ export const detailProduct = {
 
 //File added.
 // File added Learn-new Branch.
+// Added new Changes.
