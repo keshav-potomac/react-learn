@@ -6,6 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import  { ProductProvider } from './context'
 ReactDOM.render(
+   // This file as Test mode for Git learning.
    <ProductProvider>
       <Router>
          <App />
