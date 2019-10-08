@@ -1,40 +1,74 @@
 import React, { Component } from 'react';
-import { storeProducts , detailProduct } from './data';
-const ProductContext =  React.createContext();
- class ProductProvider extends Component {
-     state = {
-         products: [],
-         detailProduct: detailProduct
-     }
+import { storeProducts, detailProduct } from './data';
+const ProductContext = React.createContext();
+class ProductProvider extends Component {
+    state = {
+        products: [],
+        detailProduct: detailProduct,
+        cart: [],
+        modalOpen: false,
+        modelProduct: detailProduct,
+    }
 
-     componentDidMount(){
+    componentDidMount() {
         this.setProducts();
     }
-     setProducts = () =>{
-         let tempProducts = [];
-         storeProducts.forEach(item => {
-             const singleItem = {...item};
-             tempProducts = [...tempProducts, singleItem];
-         })
-         this.setState(()=>{
-             return {products: tempProducts}
-         });
-     }
-    
-     handleDetail = () => {
-         console.error("Hello ffrom drails")
-     }
-     
-     addToCart = (id) => {
-        console.error("Hello from add to cart id is "+id)
+    setProducts = () => {
+        let tempProducts = [];
+        storeProducts.forEach(item => {
+            const singleItem = { ...item };
+            tempProducts = [...tempProducts, singleItem];
+        })
+        this.setState(() => {
+            return { products: tempProducts }
+        });
     }
-  
+
+
+    getItems = (id) => {
+        const product = this.state.products.find(item => item.id === id);
+        return product;
+    }
+    handleDetail = (id) => {
+        const product = this.getItems(id);
+        this.setState(() => {
+            return { detailProduct: product }
+        });
+    }
+
+    addToCart = (id) => {
+        let tempProducts = [...this.state.products];
+        const index = tempProducts.indexOf(this.getItems(id));
+        const product = tempProducts[index];
+        product.inCart = true;
+        product.count = 1;
+        const price = product.price;
+        product.total = price;
+        this.setState(
+            () => {
+                return { products: tempProducts, cart: [this.state.cart, product] };
+            }, () => {
+
+            });
+    }
+
+    openModal = id => {
+        const product = this.getItems(id);
+        this.setState(() => {
+            return { modelProduct: product, modalOpen: true }
+        })
+    }
+    closeModal = id => {
+        this.setState(() => {
+            return { modalOpen: false }
+        });
+    }
     render() {
         return (
             <ProductContext.Provider value={{
-                ...this.state, handleDetail: this.handleDetail,addToCart:this.addToCart
+                ...this.state, handleDetail: this.handleDetail, addToCart: this.addToCart, openModal: this.openModal, closeModal: this.closeModal
             }}>
-              
+
                 {this.props.children}
             </ProductContext.Provider>
         )
@@ -44,4 +78,4 @@ const ProductContext =  React.createContext();
 
 const ProductConsumer = ProductContext.Consumer;
 
-export { ProductProvider , ProductConsumer}
+export { ProductProvider, ProductConsumer }

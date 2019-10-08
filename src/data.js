@@ -112,6 +112,7 @@ export const detailProduct = {
   total: 0
 };
 
-//File added.
+// File added.
 // File added Learn-new Branch.
 // Added new Changes.
+// Added a new file changed.
