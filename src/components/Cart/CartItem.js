@@ -4,7 +4,7 @@ export default function CartItem({item,value}) {
     const { id , title , img , price , total , count  } =  item;
     const { increment , decrement , removeItem } = value;
     return (
-        <div className="row my-1 text-capitalize text-center">
+        <div className="row my-2 text-capitalize text-center">
             <div className="col-10 mx-auto col-lg-2">
                 <img src={img} style={{width: '5rem'}} className="img-fluid" alt="product" />
 
@@ -27,7 +27,13 @@ export default function CartItem({item,value}) {
                </div>
             </div>
             <div className="col-10 mx-auto col-lg-2">
-              
+                <div className="cart-icon" onClick={() =>{removeItem(id)}}>
+                    <i className="fas fa-trash"></i>
+
+                </div>
+
+            </div>
+            <div className="col-10 mx-auto col-lg-2">
             <strong>item total : $ {total}</strong>    
             </div>
         </div>
